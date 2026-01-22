@@ -9,15 +9,20 @@ export default function UploadPanel() {
 
   useEffect(() => {
     return uploadManager.subscribe(() => {
-      setUploads(uploadManager.getUploads());
+      const list = uploadManager.getUploads();
+      setUploads(list);
+
+
+      if (list.length > 0) {
+        setVisible(true);
+      }
     });
   }, []);
 
-  // Auto-hide when nothing is uploading
   if (!uploads.length || !visible) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 w-80 bg-white shadow-lg rounded-lg border">
+    <div className="fixed bottom-4 right-4 w-80 bg-white shadow-lg rounded-lg border z-50">
       
       {/* Header */}
       <div className="flex justify-between items-center px-3 py-2 border-b">
@@ -25,7 +30,7 @@ export default function UploadPanel() {
           Uploading {uploads.length} item{uploads.length > 1 ? "s" : ""}
         </span>
 
-        {/* ✕ Close panel */}
+        {/* ✕ Close */}
         <button
           onClick={() => setVisible(false)}
           className="text-gray-400 hover:text-gray-700"
@@ -35,7 +40,7 @@ export default function UploadPanel() {
         </button>
       </div>
 
-      {/* Upload list */}
+      {/* List */}
       <div className="p-3 space-y-3 max-h-64 overflow-y-auto">
         {uploads.map((u) => (
           <UploadItem key={u.id} task={u} />

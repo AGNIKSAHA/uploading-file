@@ -19,41 +19,51 @@ class UploadManager {
     return Array.from(this.uploads.values());
   }
 
-  upload(file: File) {
-    const id = crypto.randomUUID();
-    const task: UploadTask = {
-      id,
-      file,
-      progress: 0,
-      status: "uploading",
-    };
+upload(file: File) {
+  const id = crypto.randomUUID();
 
-    this.uploads.set(id, task);
-    this.notify();
+  const task: UploadTask = {
+    id,
+    file,
+    progress: 0,
+    status: "uploading",
+  };
 
-    const xhr = new XMLHttpRequest();
+  this.uploads.set(id, task);
+  this.notify();
 
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable) {
-        task.progress = Math.round((e.loaded / e.total) * 100);
-        this.notify();
-      }
-    };
+  const xhr = new XMLHttpRequest();
 
-    xhr.onload = () => {
+  xhr.upload.onprogress = (e) => {
+    if (e.lengthComputable) {
+      task.progress = Math.round((e.loaded / e.total) * 100);
+      this.notify();
+    }
+  };
+
+  xhr.onload = () => {
+    if (xhr.status >= 200 && xhr.status < 300) {
       task.status = "completed";
       task.progress = 100;
-      this.notify();
-    };
-
-    xhr.onerror = () => {
+    } else {
       task.status = "failed";
-      this.notify();
-    };
+    }
+    this.notify();
+  };
 
-    xhr.open("POST", "http://localhost:8000/upload");
-    xhr.send(file);
-  }
+  xhr.onerror = () => {
+    task.status = "failed";
+    this.notify();
+  };
+
+  
+  const formData = new FormData();
+  formData.append("file", file);
+
+  xhr.open("POST", "http://localhost:8000/upload");
+  xhr.send(formData); 
+}
+
 
   remove(id: string) {
     this.uploads.delete(id);
