@@ -1,73 +1,114 @@
-# React + TypeScript + Vite
+# 📁 Drive-Style File Upload Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **Google Drive–inspired frontend application** built with **Vite + React + TypeScript + Tailwind CSS**.
+This repository contains **frontend code only**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- Vite + React + TypeScript
+- Tailwind CSS UI
+- React Router (new data router)
+- Google Drive–style layout
+  - Navbar with active tabs & search bar
+  - Collapsible sidebar
+  - Storage usage bar
+- Upload features
+  - Upload button  (+ New)
+  - Background upload popup with progress
+- File list view
+  - Instant appearance while uploading
+  - Uploading / completed / failed states
+- Delete uploaded files
+- Non-blocking UI
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧱 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Vite
+- React 18
+- TypeScript
+- Tailwind CSS
+- React Router DOM
+- XMLHttpRequest (for upload progress)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📁 Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+├── layouts/
+├── pages/
+├── services/
+├── hooks/
+├── types/
+├── router.tsx
+├── main.tsx
+└── index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Setup & Run
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+Runs at:
+```
+http://localhost:5173
+```
+
+---
+
+## 🔌 Backend API (Expected)
+
+| Method | Endpoint |
+|------|---------|
+| POST | /upload |
+| GET | /files |
+| DELETE | /files/{filename} |
+
+Backend must allow CORS for the Vite origin.
+
+---
+
+## 📤 Upload Behavior
+
+- Files appear instantly as `uploading`
+- Background uploads (non-blocking)
+- Progress shown in side popup
+- Auto-refresh file list on completion
+
+---
+
+## 🗑 Delete Behavior
+
+- Only completed files can be deleted
+- Uploading files are protected
+- Optimistic UI update
+
+---
+
+## 📊 Storage Bar
+
+- Sidebar storage usage indicator
+- Mock data (ready for backend integration)
+
+---
+
+## 🔐 Auth Pages
+
+Login and Signup pages are UI-only.
+
+---
+
+## 📄 License
+
+MIT
